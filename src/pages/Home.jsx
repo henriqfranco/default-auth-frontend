@@ -22,9 +22,9 @@ function Home() {
         <main className="h-screen flex items-center justify-center">
             <ProfileCard username={profile ? profile.username : "Login or Register"} path={profile ? "/Profile" : "/Login"} />
             <section className="w-fit text-center">
-                <h1>Welcome{profile ? `, ${profile.username}` : ""}!</h1>
+                <h1 className="text-4xl">Welcome{profile ? `, ${profile.username}` : ""}!</h1>
                 {profile ? (
-                    <p>
+                    <p className="text-3xl">
                         Click on{" "}
                         <Link to="/Profile" aria-label={profile.username}>
                             your profile
@@ -32,10 +32,10 @@ function Home() {
                         to edit your personal information.
                     </p>
                 ) : (
-                    <p>
-                        <Link to="/Login" aria-label="Login">Login</Link>
+                    <p className="text-3xl">
+                        <Link to="/Login" aria-label="Login" className="text-lime-500">Login</Link>
                         {" "} or {" "}
-                        <Link to="/Register" aria-label="Register">Register</Link>
+                        <Link to="/Register" aria-label="Register" className="text-teal-500">Register</Link>
                         {" "} now to use all features.
                     </p>
                 )}

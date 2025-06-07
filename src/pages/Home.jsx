@@ -5,18 +5,37 @@ import ProfileCard from "../components/ProfileCard";
 
 function Home() {
     const [profile, setProfile] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://127.0.0.1:3000/user')
-            .then(res => {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            fetch('http://127.0.0.1:3000/user', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
                 if (!res.ok) {
-                    throw new Error(`HTTP error. Status: ${res.status}`);
+                    throw new Error('Not authenticated');
                 }
                 return res.json();
-            }).then(data => setProfile(data)).catch(err => {
-                console.error('Failed to fetch user:', err);
+            }).then(data => {
+                const userProfile = Array.isArray(data) ? data[0] : data;
+                setProfile(userProfile);
+                setLoading(false);
+            }).catch(error => {
+                console.error('Failed to fetch user: ', error);
+                setLoading(false);
             });
+        } else {
+            setLoading(false);
+        }
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    };
 
     return (
         <main className="h-screen flex items-center justify-center">
